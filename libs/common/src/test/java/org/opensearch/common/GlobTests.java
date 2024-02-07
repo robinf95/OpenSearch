@@ -40,6 +40,30 @@ public class GlobTests extends OpenSearchTestCase {
     public void testGlobMatchMultipleWildcards() {
         assertTrue(Glob.globMatch("*test*", "thisisatesting"));
         assertFalse(Glob.globMatch("*test*", "thisisatesing"));
+        assertTrue(Glob.globMatch("*test*test", "thisisatestingtest"));
+        assertFalse(Glob.globMatch("*test*test", "thisisatesting"));
+    }
+
+    public void testGlobMatchMultipleCharactersWithSingleWildcard() {
+        assertTrue(Glob.globMatch("a*b", "acb"));
+        assertTrue(Glob.globMatch("a*b", "aab"));
+        assertTrue(Glob.globMatch("a*b", "aaab"));
+        assertFalse(Glob.globMatch("a*b", "ac"));
+    }
+
+    public void testGlobMatchWildcardWithEmptyString() {
+        assertTrue(Glob.globMatch("*", ""));
+        assertTrue(Glob.globMatch("a*", "a"));
+        assertFalse(Glob.globMatch("a*", ""));
+    }
+
+    public void testGlobMatchMultipleWildcardsWithMultipleCharacters() {
+        assertTrue(Glob.globMatch("a*b*c", "abc"));
+        assertTrue(Glob.globMatch("a*b*c", "axxxbxbc"));
+        assertTrue(Glob.globMatch("a*b*c", "aabc"));
+        assertTrue(Glob.globMatch("a*b*c", "abac"));
+        assertFalse(Glob.globMatch("a*b*c", "abca"));
+        assertFalse(Glob.globMatch("a*b*c", "ac"));
     }
 
 
